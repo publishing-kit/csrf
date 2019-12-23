@@ -7,25 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Matthew Daly``` ```matthewbdaly``` ```https://matthewdaly.co.uk``` ```450801+matthewbdaly@users.noreply.github.com``` ```publishing-kit``` ```csrf``` ```CSRF implementation``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
-
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
-
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-build/
-docs/
-config/
-src/
-tests/
-vendor/
-```
-
+Simple CSRF implementation.
 
 ## Install
 
@@ -35,11 +17,35 @@ Via Composer
 $ composer require publishing-kit/csrf
 ```
 
+You will also need to include one of the supported session libraries. Currently these are:
+
+* `symfony/http-foundation`
+* `zendframework/zend-session`
+
 ## Usage
 
+Here is an example of using the library to create and validate a token using the Zend backend:
+
 ``` php
-$skeleton = new PublishingKit\Csrf();
-echo $skeleton->echoPhrase('Hello, League!');
+$session = new Zend\Session\Container();
+$storage = new PublishingKit\Csrf\ZendSessionTokenStorage($session);
+$reader = new PublishingKit\Csrf\StoredTokenReader($storage);
+$token = $reader->read('foo');
+$validator = new PublishingKit\Csrf\StoredTokenValidator($storage);
+$validator->validate('foo', $token);
+```
+
+And here we use the Symfony backend:
+
+``` php
+$session = new Symfony\Component\HttpFoundation\Session\Session(
+    new Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage()
+);
+$storage = new PublishingKit\Csrf\SymfonySessionTokenStorage($session);
+$reader = new PublishingKit\Csrf\StoredTokenReader($storage);
+$token = $reader->read('foo');
+$validator = new PublishingKit\Csrf\StoredTokenValidator($storage);
+$validator->validate('foo', $token);
 ```
 
 ## Change log
