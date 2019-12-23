@@ -29,6 +29,6 @@ final class Token
 
     public function equals(Token $token): bool
     {
-        return ($this->token === $token->__toString());
+        return hash_equals($this->token, $token->__toString());
     }
 }
