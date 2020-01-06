@@ -20,15 +20,15 @@ $ composer require publishing-kit/csrf
 You will also need to include one of the supported session libraries. Currently these are:
 
 * `symfony/http-foundation`
-* `zendframework/zend-session`
+* `laminas/laminas-session`
 
 ## Usage
 
-Here is an example of using the library to create and validate a token using the Zend backend:
+Here is an example of using the library to create and validate a token using the Laminas backend:
 
 ``` php
-$session = new Zend\Session\Container();
-$storage = new PublishingKit\Csrf\ZendSessionTokenStorage($session);
+$session = new Laminas\Session\Container();
+$storage = new PublishingKit\Csrf\LaminasSessionTokenStorage($session);
 $reader = new PublishingKit\Csrf\StoredTokenReader($storage);
 $token = $reader->read('foo');
 $validator = new PublishingKit\Csrf\StoredTokenValidator($storage);
