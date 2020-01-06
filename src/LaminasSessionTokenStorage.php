@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace PublishingKit\Csrf;
 
-use Zend\Session\Container;
+use Laminas\Session\Container;
 
-final class ZendSessionTokenStorage implements TokenStorage
+final class LaminasSessionTokenStorage implements TokenStorage
 {
     /**
      * @var Container
