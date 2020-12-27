@@ -25,6 +25,7 @@ final class LaminasSessionTokenStorage implements TokenStorage
 
     public function retrieve(string $key): ?Token
     {
+        /** @var string|null **/
         $tokenValue = $this->session->$key;
 
         if ($tokenValue === null) {
